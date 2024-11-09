@@ -3,10 +3,12 @@ package com.book.Library.db.repository;
 import com.book.Library.db.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query("SELECT a, COUNT(t) as count " +
             "FROM Transaction t " +

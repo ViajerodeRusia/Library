@@ -3,16 +3,12 @@ package com.book.Library.controller;
 import com.book.Library.controller.dto.AuthorDTO;
 import com.book.Library.controller.dto.ReaderDTO;
 import com.book.Library.controller.dto.TransactionDTO;
-import com.book.Library.db.entity.Author;
-import com.book.Library.db.entity.Reader;
-import com.book.Library.db.entity.Transaction;
 import com.book.Library.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,6 +19,7 @@ public class LibraryController {
 
     @PostMapping("/transaction")
     public ResponseEntity<TransactionDTO> performTransaction(
+            @RequestHeader("Authorization") String token,
             @RequestParam Long bookId,
             @RequestParam String readerPhone,
             @RequestParam String operationType) {
@@ -33,6 +30,7 @@ public class LibraryController {
 
     @GetMapping("/popular-author")
     public ResponseEntity<AuthorDTO> getMostPopularAuthor(
+            @RequestHeader("Authorization") String token,
             @RequestParam String startDate,
             @RequestParam String endDate) {
 
@@ -41,7 +39,7 @@ public class LibraryController {
     }
 
     @GetMapping("/most-frequent-reader")
-    public ResponseEntity<ReaderDTO> getMostFrequentReader() {
+    public ResponseEntity<ReaderDTO> getMostFrequentReader(@RequestHeader("Authorization") String token) {
         ReaderDTO readerDTO = libraryService.findMostFrequentReader();
         return new ResponseEntity<>(readerDTO, HttpStatus.OK);
     }
